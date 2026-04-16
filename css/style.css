@@ -65,8 +65,9 @@ body {
 .mobile-menu-btn {
   display: none;
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 20px;
+  transform: translateY(-50%);
   z-index: 50;
   background: white;
   border: none;
