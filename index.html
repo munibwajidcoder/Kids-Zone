@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids-Zone - Learning Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+
+        <!-- Overlay -->
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="close-menu-btn">&times;</button>
+
+            <div class="logo-area">
+                <div class="logo-title">Learning Hub</div>
+                <div class="logo-subtitle">Let's play and learn!</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item active">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                        </svg>
+                    </span>
+                    Home
+                </a>
+                <a href="abc.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2" /><text x="12"
+                                y="16" font-size="12" text-anchor="middle" fill="currentColor" stroke="none"
+                                font-weight="bold">A</text>
+                        </svg>
+                    </span>
+                    ABC
+                </a>
+                <a href="123.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2" /><text x="12"
+                                y="16" font-size="10" text-anchor="middle" fill="currentColor" stroke="none"
+                                font-weight="bold">123</text>
+                        </svg>
+                    </span>
+                    123
+                </a>
+                <a href="tables.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor"
+                                stroke-width="2" />
+                            <path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </span>
+                    Tables
+                </a>
+                <a href="rhymes.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                        </svg>
+                    </span>
+                    Rhymes
+                </a>
+                <a href="colors.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.16-.6-1.57-.35-.39-.58-.91-.58-1.48 0-1.13.88-2.05 2.01-2.05h1.36c2.61 0 5.31-2.11 5.31-5.31C22 7.02 17.51 2 12 2zM6.5 11.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                        </svg>
+                    </span>
+                    Colors
+                </a>
+                <a href="animals.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M14.5 12c1.93 0 3.5-1.57 3.5-3.5S16.43 5 14.5 5 11 6.57 11 8.5s1.57 3.5 3.5 3.5zm-5 0C11.43 12 13 10.43 13 8.5S11.43 5 9.5 5 6 6.57 6 8.5 7.57 12 9.5 12zm0 2c-2.33 0-7 1.17-7 3.5V21h14v-3.5c0-2.33-4.67-3.5-7-3.5zm5 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V21h6v-3.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>
+                    </span>
+                    Animals
+                </a>
+                <a href="vegetables.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66 1.34-3.3c3.09 1.48 7.37 1.42 10.95-1.54C21 14 21 8 21 8h-4zm-2.04 7.64c-2.58 2.14-5.69 2.19-8 1.4L8.74 12c.55-.91 1.47-1.61 2.37-2.02.43 1.09 1.37 1.83 2.51 2.1l-.81-1.63c1.78-.39 2.92-1.99 3.01-3.66.52.27.97.64 1.35 1.06-.04 2.18-.89 4.31-2.21 5.79v.04z" />
+                        </svg>
+                    </span>
+                    Vegetables
+                </a>
+                <a href="days.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
+                        </svg>
+                    </span>
+                    Days
+                </a>
+                <a href="months.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                        </svg>
+                    </span>
+                    Months
+                </a>
+                <a href="addition.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+                                fill="none" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </span>
+                    Addition
+                </a>
+                <a href="subtraction.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"
+                                fill="none" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </span>
+                    Subtraction
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <nav class="top-navbar">
+                <div class="abc-header-title">KIDS-ZONE</div>
+            </nav>
+
+            <header class="page-header">
+                <h1 class="page-title">Welcome to Kids-Zone</h1>
+                <p class="page-subtitle">Learn ABC, Numbers, Rhymes and Fun Activities!</p>
+            </header>
+
+            <section class="image-cards">
+                <div class="image-card" id="daily-reflection-card">
+                    <img src="images/child_praying.png" alt="Daily Reflection">
+                    <div class="image-card-overlay">
+                        <span class="image-card-title">Daily Reflection</span>
+                    </div>
+                </div>
+                <div class="image-card" id="healthy-habits-card">
+                    <img src="images/child_brushing.png" alt="Healthy Habits">
+                    <div class="image-card-overlay">
+                        <span class="image-card-title">Healthy Habits</span>
+                    </div>
+                </div>
+                <div class="image-card" id="growing-strong-card">
+                    <img src="images/child_drinking.png" alt="Growing Strong">
+                    <div class="image-card-overlay">
+                        <span class="image-card-title">Growing Strong</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid-panel">
+                <div class="activities-grid">
+
+                    <a href="abc.html" class="activity-btn btn-blue">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <path d="M9 16V10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6" />
+                                <path d="M9 13h6" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Learn ABC</span>
+                    </a>
+
+                    <a href="123.html" class="activity-btn btn-yellow">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24">
+                                <line x1="8" y1="6" x2="21" y2="6" stroke="#000" stroke-width="2"
+                                    stroke-linecap="round" />
+                                <line x1="8" y1="12" x2="21" y2="12" stroke="#000" stroke-width="2"
+                                    stroke-linecap="round" />
+                                <line x1="8" y1="18" x2="21" y2="18" stroke="#000" stroke-width="2"
+                                    stroke-linecap="round" />
+                                <circle class="fill-element" cx="4" cy="6" r="1.5" />
+                                <circle class="fill-element" cx="4" cy="12" r="1.5" />
+                                <circle class="fill-element" cx="4" cy="18" r="1.5" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Learn Numbers</span>
+                    </a>
+
+                    <a href="rhymes.html" class="activity-btn btn-red">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path
+                                    d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Rhymes</span>
+                    </a>
+
+                    <a href="colors.html" class="activity-btn btn-green">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path
+                                    d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.16-.6-1.57-.35-.39-.58-.91-.58-1.48 0-1.13.88-2.05 2.01-2.05h1.36c2.61 0 5.31-2.11 5.31-5.31C22 7.02 17.51 2 12 2zM6.5 11.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Colors</span>
+                    </a>
+
+                    <a href="animals.html" class="activity-btn btn-purple">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path
+                                    d="M14.5 12c1.93 0 3.5-1.57 3.5-3.5S16.43 5 14.5 5 11 6.57 11 8.5s1.57 3.5 3.5 3.5zm-5 0C11.43 12 13 10.43 13 8.5S11.43 5 9.5 5 6 6.57 6 8.5 7.57 12 9.5 12zm0 2c-2.33 0-7 1.17-7 3.5V21h14v-3.5c0-2.33-4.67-3.5-7-3.5zm5 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V21h6v-3.5c0-2.33-4.67-3.5-7-3.5z" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Animals</span>
+                    </a>
+
+                    <a href="addition.html" class="activity-btn btn-orange">
+                        <div class="activity-btn-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="16" />
+                                <line x1="8" y1="12" x2="16" y2="12" />
+                            </svg>
+                        </div>
+                        <span class="activity-btn-text">Fun Maths</span>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- Customer Reviews Section -->
+            <section class="reviews-section">
+                <div class="reviews-header">
+                    <h3>Customer Reviews</h3>
+                </div>
+                <div class="reviews-grid">
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Ayesha Khan" class="user-img">
+                            <div class="user-info">
+                                <h5>Ayesha Khan</h5>
+                                <span class="review-time">2 days ago</span>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="review-text">Fantastic place for kids! My children had an amazing time. Highly recommend for any parent looking for quality fun!</p>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Michael Ahmed" class="user-img">
+                            <div class="user-info">
+                                <h5>Michael Ahmed</h5>
+                                <span class="review-time">1 week ago</span>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="review-text">Great selection of toys and very friendly staff. Will definitely visit again. The play area is kept extremely tidy.</p>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop" alt="Sara Malik" class="user-img">
+                            <div class="user-info">
+                                <h5>Sara Malik</h5>
+                                <span class="review-time">3 days ago</span>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="review-text">My daughter loves Kidz Zone! The play area is clean and safe. A truly wonderful experience every time we visit!</p>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="David Miller" class="user-img">
+                            <div class="user-info">
+                                <h5>David Miller</h5>
+                                <span class="review-time">5 days ago</span>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <p class="review-text">The educational activities are very engaging. It's the perfect spot for weekend family fun. My boys learned so much!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Section -->
+            <footer class="site-footer">
+                <div class="footer-content">
+                    <!-- Column 1: Brand & Intro -->
+                    <div class="footer-section">
+                        <h4>Kids-Zone</h4>
+                        <p class="footer-desc">Let's play and learn! Exploring the world of knowledge one step at a time
+                            with fun and interactive activities.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-icon" aria-label="Facebook">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="TikTok">
+                                <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+                            </a>
+
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.28.058 1.688.072 4.948.072s3.668-.014 4.948-.072c4.358-.2 6.78-2.618 6.981-6.98.058-1.28.072-1.688.072-4.948s-.014-3.668-.072-4.948c-.2-4.358-2.618-6.78-6.98-6.981C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4.162 4.162 0 1 1 0-8.324A4.162 4.162 0 0 1 12 16zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Navigation -->
+                    <div class="footer-section">
+                        <h4>Navigation</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Our Services</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Categories -->
+                    <div class="footer-section">
+                        <h4>Learning</h4>
+                        <ul class="footer-links">
+                            <li><a href="abc.html">Learn ABC</a></li>
+                            <li><a href="123.html">Learn Numbers</a></li>
+                            <li><a href="rhymes.html">Fun Rhymes</a></li>
+                            <li><a href="animals.html">Animals World</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 4: Credits -->
+                    <div class="footer-section designer-info">
+                        <h4>Credits</h4>
+                        <p>Designed by Muhammad Mohib</p>
+                        <span class="design-date">Designed on 15 April 2026</span>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p class="copyright">&copy; 2026 All Rights Reserved. Crafted for the kids.</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
