@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Unique Per-Page Entrance Animations ---
     function initEntranceAnimations() {
         // --- 1. Robust Page Detection (By content, not just URL) ---
-        const isHome = document.querySelector('.activities-grid') || document.querySelector('.image-cards');
+        const isHome = document.querySelector('.activities-grid') || document.querySelector('.image-cards') || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/');
         const isABC = document.querySelector('.abc-grid');
         const is123 = document.querySelector('.small-numbers-grid') || document.querySelector('.counting-section');
         const isTables = document.querySelector('.tables-grid');
@@ -537,6 +537,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- 4. Hyper-Robust Auto-Greeting ---
+        // This ensures that "Hey kids, welcome to Kids Zone" plays when the page loads or refreshes.
+        // We trigger it on the first available interaction (mousemove, touch, etc.) to bypass browser autoplay blocks.
         if (isHome) {
             const welcomeText = "Hey kids, welcome to Kids Zone";
             let greetTriggered = false;
@@ -546,25 +548,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const voices = window.speechSynthesis.getVoices();
                 if (voices.length > 0) {
-                    primeEngine();
+                    // We use speakImmediate to leverage the existing refined voice settings.
                     speakImmediate(welcomeText);
                     greetTriggered = true;
+                    
+                    // Cleanup listeners once the greeting has successfully started
                     ['mousedown', 'touchstart', 'keydown', 'scroll', 'wheel', 'mousemove', 'click'].forEach(type => {
                         window.removeEventListener(type, attemptWelcome);
                     });
                 }
             };
 
-            setTimeout(attemptWelcome, 500);
-            setTimeout(attemptWelcome, 1500);
+            // Listen for any tiny interaction to trigger the voice
             ['mousedown', 'touchstart', 'keydown', 'scroll', 'wheel', 'mousemove', 'click'].forEach(type => {
                 window.addEventListener(type, attemptWelcome, { once: true, passive: true });
             });
             
+            // Retry mechanisms for cases where voices load late or interaction happens silently
+            setTimeout(attemptWelcome, 500);
+            setTimeout(attemptWelcome, 1000);
+            setTimeout(attemptWelcome, 2000);
+            
             if (window.speechSynthesis.onvoiceschanged !== undefined) {
-                const prevHandler = window.speechSynthesis.onvoiceschanged;
+                const existingHandler = window.speechSynthesis.onvoiceschanged;
                 window.speechSynthesis.onvoiceschanged = () => {
-                    if (prevHandler) prevHandler();
+                    if (typeof existingHandler === 'function') existingHandler();
                     attemptWelcome();
                 };
             }
