@@ -355,11 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // --- High-Quality Rhyme Audio System (Connected to GitHub) ---
+    // --- High-Quality Rhyme Audio System (Local Folder) ---
     const RHYME_AUDIO = {
-        twinkle: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/01%20Twinkle%20Twinkle%20Little%20Star.m4a',
-        johnny: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/Johny%20Johny%20Yes%20Papa.mp3',
-        abc: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/abc-alphabet-song-274033.mp3'
+        twinkle: 'audio/01 Twinkle Twinkle Little Star.m4a',
+        johnny: 'audio/Johny Johny Yes Papa.mp3',
+        abc: 'audio/abc-alphabet-song-274033.mp3'
     };
 
     let currentAudio = null;
@@ -493,13 +493,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Animals Section Interactive Voice (Dual Action) ---
     const animalCards = document.querySelectorAll('.animal-card[data-animal]');
 
-    // --- Animal Sound Audio System (Connected to GitHub) ---
+    // --- Animal Sound Audio System (Local Folder) ---
     const ANIMAL_AUDIO = {
-        'Cat':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/stu9-cute-cat-352656.mp3',
-        'Dog':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-dog-bark-effect-382711.mp3',
-        'Cow':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-cow-moo-1-472361.mp3',
-        'Lion':     'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-lion-roar-sound-effect-324751.mp3',
-        'Elephant': 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-elephant-trumpeting-494313.mp3'
+        'Cat':      'audio/stu9-cute-cat-352656.mp3',
+        'Dog':      'audio/dragon-studio-dog-bark-effect-382711.mp3',
+        'Cow':      'audio/dragon-studio-cow-moo-1-472361.mp3',
+        'Lion':     'audio/dragon-studio-lion-roar-sound-effect-324751.mp3',
+        'Elephant': 'audio/dragon-studio-elephant-trumpeting-494313.mp3'
     };
 
     let currentAnimalAudio = null;
