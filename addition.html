@@ -95,32 +95,33 @@
             <section class="addition-container">
                 <div class="math-board">
                     <div class="apple-row">
-                        <div class="apple-group-blue">
+                        <div class="apple-group-blue" id="apple-group-1">
                             <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
                             <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
                         </div>
                         <div class="plus-sign">+</div>
-                        <div class="apple-group-yellow">
-                            <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                            <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
+                        <div class="apple-group-yellow" id="apple-group-2">
+                            <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
+                            <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
                             <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
                         </div>
                     </div>
                     <div class="equation-pill">
-                        <span class="eq-num-blue">2</span>
+                        <span class="eq-num-blue" id="num1">2</span>
                         <span class="eq-symbol">+</span>
-                        <span class="eq-num-gold">3</span>
+                        <span class="eq-num-gold" id="num2">3</span>
                         <span class="eq-symbol">=</span>
-                        <div class="dashed-question"><span>?</span></div>
+                        <div class="dashed-question"><span id="question-mark">?</span></div>
                     </div>
                 </div>
 
                 <div class="interaction-board">
                     <h3 class="interaction-title">Can you solve it?</h3>
                     <div class="input-container">
-                        <input type="text" class="quiz-input" placeholder="Your answer..">
+                        <input type="number" class="quiz-input" id="answer-input" placeholder="Your answer.." min="0" max="20">
                     </div>
-                    <button class="check-answer-btn">Check Answer</button>
+                    <button class="check-answer-btn" id="check-btn">Check Answer</button>
+                    <div id="feedback-msg" style="margin-top: 20px; font-weight: 800; font-size: 22px;"></div>
                 </div>
             </section>
         </main>

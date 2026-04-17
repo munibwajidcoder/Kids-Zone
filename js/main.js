@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         availableVoices = window.speechSynthesis.getVoices();
         if (availableVoices.length === 0) return;
 
-        // --- Restoring Your Preferred Voice ---
-        // We prioritize the clear Google/Samantha voices you liked, 
-        // but keep the speed-tuning active.
-        fastVoice = availableVoices.find(v => (v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Female')) && v.lang.startsWith('en'))
+        // --- High-Quality Kid-Friendly Voice Selection ---
+        // We prioritize "Natural" (Edge), "Google" (Chrome), "Aria", or "Samantha" for a soft, polite experience.
+        fastVoice = availableVoices.find(v => (v.name.includes('Natural') || v.name.includes('Aria') || v.name.includes('Google')) && v.lang.startsWith('en'))
+                  || availableVoices.find(v => (v.name.includes('Samantha') || v.name.includes('Female')) && v.lang.startsWith('en'))
                   || availableVoices.find(v => v.lang.startsWith('en'));
 
         sequenceVoice = fastVoice;
@@ -355,49 +355,53 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    async function playRhymeSequence(id) {
-        if (isSpeakingRhyme && currentRhymeId === id) {
-            window.speechSynthesis.cancel();
-            isSpeakingRhyme = false;
-            currentRhymeId = null;
+    // --- High-Quality Rhyme Audio System (Connected to GitHub) ---
+    const RHYME_AUDIO = {
+        twinkle: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/01%20Twinkle%20Twinkle%20Little%20Star.m4a',
+        johnny: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/Johny%20Johny%20Yes%20Papa.mp3',
+        abc: 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/abc-alphabet-song-274033.mp3'
+    };
+
+    let currentAudio = null;
+
+    async function playRhyme(id) {
+        const card = document.getElementById(`play-rhyme-${id}`)?.closest('.rhyme-card');
+        
+        if (currentAudio && currentAudio.getAttribute('data-id') === id) {
+            currentAudio.pause();
+            currentAudio = null;
             document.querySelectorAll('.rhyme-card').forEach(c => c.classList.remove('rhyme-playing'));
             return;
         }
 
+        // Global Stop
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
         window.speechSynthesis.cancel();
-        isSpeakingRhyme = true;
-        currentRhymeId = id;
-
-        // Reset other sequences
-        isSpeakingABC = false;
-        isSpeakingTable = false;
-        abcCards.forEach(c => c.classList.remove('card-playing'));
+        isSpeakingRhyme = false;
+        
         document.querySelectorAll('.rhyme-card').forEach(c => c.classList.remove('rhyme-playing'));
 
-        const card = document.getElementById(`play-rhyme-${id}`)?.closest('.rhyme-card');
         if (card) card.classList.add('rhyme-playing');
 
-        const lines = rhymeData[id];
-        for (let i = 0; i < lines.length; i++) {
-            if (!isSpeakingRhyme || currentRhymeId !== id) break;
-            
-            const utterance = new SpeechSynthesisUtterance(lines[i]);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.35; // Fun musical pitch
-            if (sequenceVoice) utterance.voice = sequenceVoice;
+        // Create audio object directly from GitHub URL
+        const audio = new Audio(RHYME_AUDIO[id]);
+        audio.setAttribute('data-id', id);
+        currentAudio = audio;
 
-            await new Promise((resolve) => {
-                utterance.onend = () => setTimeout(resolve, 400); // Musical pause between lines
-                utterance.onerror = () => resolve();
-                window.speechSynthesis.speak(utterance);
-            });
-        }
-
-        if (currentRhymeId === id) {
-            isSpeakingRhyme = false;
-            currentRhymeId = null;
+        audio.play().catch(err => {
+            console.error("Audio playback failed:", err);
             if (card) card.classList.remove('rhyme-playing');
-        }
+        });
+
+        audio.onended = () => {
+            if (currentAudio === audio) {
+                currentAudio = null;
+                if (card) card.classList.remove('rhyme-playing');
+            }
+        };
     }
 
     ['twinkle', 'johnny', 'abc'].forEach(id => {
@@ -405,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn) {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                playRhymeSequence(id);
+                playRhyme(id);
             });
         }
     });
@@ -463,6 +467,177 @@ document.addEventListener('DOMContentLoaded', () => {
             playCardVoice('growing-strong-card', "Drink milk every day to make your bones strong and healthy!");
         });
     }
+
+    // --- Colors Section Interactive Voice ---
+    const colorCards = document.querySelectorAll('.color-card[data-color]');
+    colorCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const color = card.getAttribute('data-color');
+            if (color) {
+                // Visual Highlight
+                colorCards.forEach(c => c.classList.remove('card-playing'));
+                card.classList.add('card-playing');
+
+                // Zero-Latency Speak
+                speakImmediate(color);
+
+                // Clear highlight
+                setTimeout(() => {
+                    card.classList.remove('card-playing');
+                }, 800);
+            }
+        });
+    });
+
+    // --- Animals Section Interactive Voice (Dual Action) ---
+    const animalCards = document.querySelectorAll('.animal-card[data-animal]');
+
+    // --- Animal Sound Audio System (Connected to GitHub) ---
+    const ANIMAL_AUDIO = {
+        'Cat':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/stu9-cute-cat-352656.mp3',
+        'Dog':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-dog-bark-effect-382711.mp3',
+        'Cow':      'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-cow-moo-1-472361.mp3',
+        'Lion':     'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-lion-roar-sound-effect-324751.mp3',
+        'Elephant': 'https://raw.githubusercontent.com/munibwajidcoder/Kids-Zone/main/dragon-studio-elephant-trumpeting-494313.mp3'
+    };
+
+    let currentAnimalAudio = null;
+
+    function playAnimalSound(animal, card) {
+        // Toggle off if same animal sound is already playing
+        if (currentAnimalAudio && currentAnimalAudio.getAttribute('data-animal') === animal) {
+            currentAnimalAudio.pause();
+            currentAnimalAudio = null;
+            animalCards.forEach(c => c.classList.remove('card-playing'));
+            return;
+        }
+
+        // Stop any currently playing animal audio
+        if (currentAnimalAudio) {
+            currentAnimalAudio.pause();
+            currentAnimalAudio.currentTime = 0;
+        }
+
+        animalCards.forEach(c => c.classList.remove('card-playing'));
+        if (card) card.classList.add('card-playing');
+
+        // Create audio object directly from GitHub URL (same as Rhymes section)
+        const audio = new Audio(ANIMAL_AUDIO[animal]);
+        audio.setAttribute('data-animal', animal);
+        currentAnimalAudio = audio;
+
+        audio.play().catch(err => {
+            console.error('Animal audio playback failed:', err);
+            if (card) card.classList.remove('card-playing');
+        });
+
+        audio.onended = () => {
+            if (currentAnimalAudio === audio) {
+                currentAnimalAudio = null;
+                if (card) card.classList.remove('card-playing');
+            }
+        };
+    }
+
+    animalCards.forEach(card => {
+        // 1. CONTAINER CLICK → AI voice speaks the animal NAME (unchanged)
+        card.addEventListener('click', (e) => {
+            const animal = card.getAttribute('data-animal');
+            if (animal) {
+                // Visual Highlight
+                animalCards.forEach(c => c.classList.remove('card-playing'));
+                card.classList.add('card-playing');
+
+                // AI Voice — speak the animal name
+                speakImmediate(animal);
+
+                // Clear highlight
+                setTimeout(() => {
+                    card.classList.remove('card-playing');
+                }, 900);
+            }
+        });
+
+        // 2. SPEAKER ICON CLICK → play real GitHub animal sound audio
+        const speakerIcon = card.querySelector('.animal-speaker-icon');
+        if (speakerIcon) {
+            speakerIcon.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent container click from also firing
+
+                const animal = card.getAttribute('data-animal');
+                if (animal) {
+                    playAnimalSound(animal, card);
+                }
+            });
+        }
+    });
+
+    // --- Vegetables Section Interactive Voice ---
+    const vegCards = document.querySelectorAll('.veg-card[data-veg]');
+    vegCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const veg = card.getAttribute('data-veg');
+            if (veg) {
+                // Visual Highlight
+                vegCards.forEach(c => c.classList.remove('card-playing'));
+                card.classList.add('card-playing');
+
+                // AI Voice — speak the vegetable name using TTS
+                speakImmediate(veg);
+
+                // Clear highlight
+                setTimeout(() => {
+                    card.classList.remove('card-playing');
+                }, 900);
+            }
+        });
+    });
+
+    // --- Days Section Interactive Voice ---
+    const dayCards = document.querySelectorAll('.day-card[data-day]');
+    dayCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const day = card.getAttribute('data-day');
+            if (day) {
+                // Visual Highlight
+                dayCards.forEach(c => c.classList.remove('card-playing'));
+                card.classList.add('card-playing');
+
+                // AI Voice — speak the day name using TTS
+                speakImmediate(day);
+
+                // Clear highlight
+                setTimeout(() => {
+                    card.classList.remove('card-playing');
+                }, 900);
+            }
+        });
+    });
+
+    // --- Months Section Interactive Voice ---
+    const monthCards = document.querySelectorAll('.month-card[data-month]');
+    monthCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const month = card.getAttribute('data-month');
+            if (month) {
+                // Visual Highlight
+                monthCards.forEach(c => c.classList.remove('card-playing'));
+                card.classList.add('card-playing');
+
+                // AI Voice — speak the month name using TTS
+                speakImmediate(month);
+
+                // Clear highlight
+                setTimeout(() => {
+                    card.classList.remove('card-playing');
+                }, 900);
+            }
+        });
+    });
 
     // --- Unique Per-Page Entrance Animations ---
     function initEntranceAnimations() {
@@ -537,48 +712,247 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- 4. Hyper-Robust Auto-Greeting ---
-        // This ensures that "Hey kids, welcome to Kids Zone" plays when the page loads or refreshes.
-        // We trigger it on the first available interaction (mousemove, touch, etc.) to bypass browser autoplay blocks.
-        if (isHome) {
+        // Specifically optimized for Chrome and Edge to ensure "Hey kids, welcome to Kids Zone" plays on load.
+        // Chrome requires a "User Gesture" (click, key, etc.) before speaking.
+        const isActuallyHome = document.querySelector('.activities-grid') && document.querySelector('.image-cards');
+        
+        if (isActuallyHome) {
             const welcomeText = "Hey kids, welcome to Kids Zone";
             let greetTriggered = false;
 
-            const attemptWelcome = () => {
+            const speakNow = () => {
                 if (greetTriggered) return;
                 
-                const voices = window.speechSynthesis.getVoices();
-                if (voices.length > 0) {
-                    // We use speakImmediate to leverage the existing refined voice settings.
-                    speakImmediate(welcomeText);
-                    greetTriggered = true;
+                const currentVoices = window.speechSynthesis.getVoices();
+                if (currentVoices.length > 0) {
+                    greetTriggered = true; 
                     
-                    // Cleanup listeners once the greeting has successfully started
+                    const utterance = new SpeechSynthesisUtterance(welcomeText);
+                    utterance.rate = 1.0;
+                    utterance.pitch = 1.1;
+                    const preferredVoice = currentVoices.find(v => (v.name.includes('Google US English') || v.name.includes('Samantha') || v.name.includes('Female')) && v.lang.startsWith('en')) || currentVoices.find(v => v.lang.startsWith('en'));
+                    if (preferredVoice) utterance.voice = preferredVoice;
+
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utterance);
+
+                    // Stop listening to all initialization events
                     ['mousedown', 'touchstart', 'keydown', 'scroll', 'wheel', 'mousemove', 'click'].forEach(type => {
-                        window.removeEventListener(type, attemptWelcome);
+                        window.removeEventListener(type, speakNow);
                     });
                 }
             };
 
-            // Listen for any tiny interaction to trigger the voice
+            // Attach to every possible interaction to 'catch' the first gesture
             ['mousedown', 'touchstart', 'keydown', 'scroll', 'wheel', 'mousemove', 'click'].forEach(type => {
-                window.addEventListener(type, attemptWelcome, { once: true, passive: true });
+                window.addEventListener(type, speakNow, { once: true, passive: true });
             });
-            
-            // Retry mechanisms for cases where voices load late or interaction happens silently
-            setTimeout(attemptWelcome, 500);
-            setTimeout(attemptWelcome, 1000);
-            setTimeout(attemptWelcome, 2000);
-            
+
+            // Re-trigger if voices load after the first interaction
             if (window.speechSynthesis.onvoiceschanged !== undefined) {
-                const existingHandler = window.speechSynthesis.onvoiceschanged;
+                const oldVoicesHandler = window.speechSynthesis.onvoiceschanged;
                 window.speechSynthesis.onvoiceschanged = () => {
-                    if (typeof existingHandler === 'function') existingHandler();
-                    attemptWelcome();
+                    if (typeof oldVoicesHandler === 'function') oldVoicesHandler();
+                    if (!greetTriggered) speakNow();
                 };
             }
+
+            // Chrome Prime Hook: We repeatedly attempt to initialize the engine until it speaks
+            const warmingInterval = setInterval(() => {
+                if (greetTriggered) {
+                    clearInterval(warmingInterval);
+                    return;
+                }
+                // Try to speak silently if browser allows priming
+                if (window.speechSynthesis.getVoices().length > 0) {
+                    const silentUtterance = new SpeechSynthesisUtterance("");
+                    silentUtterance.volume = 0;
+                    window.speechSynthesis.speak(silentUtterance);
+                }
+            }, 800);
         }
     }
 
     // Trigger after layout settles
     setTimeout(initEntranceAnimations, 100);
+
+    // ==========================================================================
+    // MATH MODULE: Addition & Subtraction Interactive Logic
+    // ==========================================================================
+    
+    const APPLE_IMG_URL = "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png";
+
+    // --- 1. Addition Logic ---
+    const addInput = document.getElementById('answer-input');
+    const addCheckBtn = document.getElementById('check-btn');
+    const addFeedback = document.getElementById('feedback-msg');
+    const addNum1 = document.getElementById('num1');
+    const addNum2 = document.getElementById('num2');
+    const appleGroup1 = document.getElementById('apple-group-1');
+    const appleGroup2 = document.getElementById('apple-group-2');
+
+    let currentAddAnswer = 0;
+
+    function initAddition() {
+        if (!addNum1 || !addNum2) return;
+
+        // Generate numbers such that sum <= 10
+        const n1 = Math.floor(Math.random() * 6); // 0-5
+        const n2 = Math.floor(Math.random() * 5) + 1; // 1-5
+        currentAddAnswer = n1 + n2;
+
+        // Update Numbers
+        addNum1.textContent = n1;
+        addNum2.textContent = n2;
+
+        // Update Apples
+        if (appleGroup1) {
+            appleGroup1.innerHTML = '';
+            for (let i = 0; i < n1; i++) {
+                const item = document.createElement('div');
+                item.className = 'apple-item';
+                item.innerHTML = `<img src="${APPLE_IMG_URL}" alt="Apple">`;
+                appleGroup1.appendChild(item);
+            }
+        }
+        if (appleGroup2) {
+            appleGroup2.innerHTML = '';
+            for (let i = 0; i < n2; i++) {
+                const item = document.createElement('div');
+                item.className = 'apple-item';
+                item.innerHTML = `<img src="${APPLE_IMG_URL}" alt="Apple">`;
+                appleGroup2.appendChild(item);
+            }
+        }
+
+        // Reset UI
+        if (addInput) addInput.value = '';
+        if (addFeedback) {
+            addFeedback.textContent = '';
+            addFeedback.style.color = 'inherit';
+        }
+    }
+
+    if (addCheckBtn) {
+        addCheckBtn.addEventListener('click', () => {
+            const userAnswer = parseInt(addInput.value);
+            if (isNaN(userAnswer)) {
+                addFeedback.textContent = "Please enter a number!";
+                addFeedback.style.color = "#f59e0b";
+                return;
+            }
+
+            if (userAnswer === currentAddAnswer) {
+                addFeedback.textContent = "✨ Correct! Well done! ✨";
+                addFeedback.style.color = "#10b981";
+                speakImmediate("Correct! Well done!");
+                
+                // Shuffle to new problem after 2 seconds
+                setTimeout(initAddition, 2000);
+            } else {
+                addFeedback.textContent = "Oops! Wrong answer! 🍎";
+                addFeedback.style.color = "#ef4444";
+                speakImmediate("Wrong answer.");
+                addInput.value = ''; // Clear input on wrong answer
+                addInput.focus();
+            }
+        });
+
+        // Allow 'Enter' key
+        addInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addCheckBtn.click();
+        });
+    }
+
+    // --- 2. Subtraction Logic ---
+    const subInput = document.getElementById('sub-answer-input');
+    const subCheckBtn = document.getElementById('sub-check-btn');
+    const subFeedback = document.getElementById('sub-feedback-msg');
+    const subNum1 = document.getElementById('sub-num1');
+    const subNum2 = document.getElementById('sub-num2');
+    const subAppleGroup1 = document.getElementById('sub-apple-group-1');
+    const subAppleGroup2 = document.getElementById('sub-apple-group-2');
+
+    let currentSubAnswer = 0;
+
+    function initSubtraction() {
+        if (!subNum1 || !subNum2) return;
+
+        // Ensure minuend >= subtrahend
+        const minuend = Math.floor(Math.random() * 6) + 5; // 5-10
+        const subtrahend = Math.floor(Math.random() * 5) + 1; // 1-5
+        currentSubAnswer = minuend - subtrahend;
+
+        // Update Numbers
+        subNum1.textContent = minuend;
+        subNum2.textContent = subtrahend;
+
+        // Update Apples (Group 1: Minuend)
+        if (subAppleGroup1) {
+            subAppleGroup1.innerHTML = '';
+            for (let i = 0; i < minuend; i++) {
+                const item = document.createElement('div');
+                item.className = 'apple-item';
+                item.innerHTML = `<img src="${APPLE_IMG_URL}" alt="Apple">`;
+                subAppleGroup1.appendChild(item);
+            }
+        }
+
+        // Update Apples (Group 2: Subtrahend)
+        if (subAppleGroup2) {
+            subAppleGroup2.innerHTML = '';
+            for (let i = 0; i < subtrahend; i++) {
+                const item = document.createElement('div');
+                item.className = 'apple-item';
+                const img = document.createElement('img');
+                img.src = APPLE_IMG_URL;
+                img.alt = "Apple";
+                // Returned to normal apple color as requested
+                item.appendChild(img);
+                subAppleGroup2.appendChild(item);
+            }
+        }
+
+        // Reset UI
+        if (subInput) subInput.value = '';
+        if (subFeedback) {
+            subFeedback.textContent = '';
+            subFeedback.style.color = 'inherit';
+        }
+    }
+
+    if (subCheckBtn) {
+        subCheckBtn.addEventListener('click', () => {
+            const userAnswer = parseInt(subInput.value);
+            if (isNaN(userAnswer)) {
+                subFeedback.textContent = "Please enter a number!";
+                subFeedback.style.color = "#f59e0b";
+                return;
+            }
+
+            if (userAnswer === currentSubAnswer) {
+                subFeedback.textContent = "✨ Correct! Well done! ✨";
+                subFeedback.style.color = "#10b981";
+                speakImmediate("Correct! Well done!");
+                
+                // Shuffle to new problem after 2 seconds
+                setTimeout(initSubtraction, 2000);
+            } else {
+                subFeedback.textContent = "Oops! Wrong answer! 🍎";
+                subFeedback.style.color = "#ef4444";
+                speakImmediate("Wrong answer.");
+                subInput.value = ''; // Clear input on wrong answer
+                subInput.focus();
+            }
+        });
+
+        // Allow 'Enter' key
+        subInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') subCheckBtn.click();
+        });
+    }
+
+    // --- Global Initialize ---
+    initAddition();
+    initSubtraction();
 });

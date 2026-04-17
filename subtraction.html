@@ -94,37 +94,31 @@
 
             <section class="subtraction-container">
                 <div class="sub-math-board">
-                    <div class="five-apple-group">
-                        <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                        <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                        <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                        <div class="apple-item dark"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                        <div class="apple-item"><img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple"></div>
-                    </div>
-
-                    <div class="sub-row-2">
-                        <div class="minus-sign">-</div>
-                        <div class="faded-apple-group">
-                            <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple">
-                            <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20apple/3D/red_apple_3d.png" alt="Apple">
+                    <div class="apple-row">
+                        <div class="apple-group-blue" id="sub-apple-group-1">
+                            <!-- Dynamic Apples -->
+                        </div>
+                        <div class="plus-sign" style="color: #ef4444;">-</div>
+                        <div class="apple-group-yellow" id="sub-apple-group-2">
+                            <!-- Dynamic Faded Apples -->
                         </div>
                     </div>
-
-                    <div class="sub-equation-row">
-                        <span class="sub-num">5</span>
-                        <span class="sub-op">-</span>
-                        <span class="sub-num">2</span>
-                        <span class="sub-eq">=</span>
-                        <div class="sub-dashed-question"><span>?</span></div>
+                    <div class="equation-pill">
+                        <span class="eq-num-blue" id="sub-num1">5</span>
+                        <span class="eq-symbol" style="color: #ef4444;">-</span>
+                        <span class="eq-num-gold" id="sub-num2">2</span>
+                        <span class="eq-symbol">=</span>
+                        <div class="dashed-question"><span id="sub-question-mark">?</span></div>
                     </div>
                 </div>
 
                 <div class="sub-interaction-board">
                     <h3 class="sub-interaction-title">Can you solve it?</h3>
                     <div class="sub-input-container">
-                        <input type="text" class="sub-quiz-input" placeholder="Your answer..">
+                        <input type="number" class="sub-quiz-input" id="sub-answer-input" placeholder="Your answer.." min="0" max="20">
                     </div>
-                    <button class="check-answer-btn">Check Answer</button>
+                    <button class="check-answer-btn" id="sub-check-btn">Check Answer</button>
+                    <div id="sub-feedback-msg" style="margin-top: 20px; font-weight: 800; font-size: 22px;"></div>
                 </div>
             </section>
         </main>
