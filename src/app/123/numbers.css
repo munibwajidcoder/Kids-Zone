@@ -1,0 +1,276 @@
+/* numbers.css - Premium UI for Numbers Page */
+
+.numbers-wrapper {
+  background: radial-gradient(circle at top, #140536, #09021c 80%);
+  color: white;
+  min-height: 100vh;
+  padding: 40px 50px;
+  position: relative;
+  font-family: inherit;
+}
+
+/* Header Section */
+.num-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.header-left, .header-right {
+  font-size: 80px;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  animation: float-3d-num 6s ease-in-out infinite;
+  display: flex;
+  gap: 10px;
+}
+
+.header-center {
+  text-align: center;
+  flex: 1;
+}
+
+.num-main-title {
+  font-size: 55px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.3);
+}
+
+.num-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Glass Panels */
+.num-glass-panel {
+  background: rgba(40, 20, 80, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  position: relative;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: inline-flex;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.panel-title {
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.play-icon-btn {
+  background: rgba(99, 102, 241, 0.8);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 0 10px rgba(99,102,241,0.5);
+}
+
+.play-icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.play-icon-btn.playing {
+  background: #ff1493;
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+}
+
+/* 1 to 10 Cards */
+.cards-1to10 {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.num-card-1-10 {
+  flex: 1;
+  border-radius: 20px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 220px;
+  cursor: pointer;
+  box-shadow: inset 0 5px 15px rgba(255,255,255,0.3), 0 10px 20px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.num-card-1-10:hover, .num-card-1-10.active {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: inset 0 5px 15px rgba(255,255,255,0.5), 0 15px 25px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.2);
+}
+
+.num-card-1-10 .card-num {
+  font-size: 55px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 2px 4px 0 rgba(0,0,0,0.3);
+}
+
+.num-card-1-10 .card-graphic {
+  font-size: 50px;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.4));
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.num-card-1-10 .card-word {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Specific Card Colors */
+.bg-blue { background: linear-gradient(180deg, #3b82f6, #1d4ed8); }
+.bg-green { background: linear-gradient(180deg, #22c55e, #15803d); }
+.bg-red { background: linear-gradient(180deg, #ef4444, #b91c1c); }
+.bg-purple { background: linear-gradient(180deg, #a855f7, #7e22ce); }
+.bg-orange { background: linear-gradient(180deg, #f97316, #c2410c); }
+.bg-teal { background: linear-gradient(180deg, #14b8a6, #0f766e); }
+.bg-pink { background: linear-gradient(180deg, #ec4899, #be185d); }
+.bg-indigo { background: linear-gradient(180deg, #6366f1, #4338ca); }
+.bg-darkblue { background: linear-gradient(180deg, #2563eb, #1e3a8a); }
+
+/* 11-100 Pills */
+.big-num-layout {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.pills-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 12px;
+}
+
+.side-graphic {
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-graphic span {
+  font-size: 120px;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));
+  animation: float-3d-num 6s ease-in-out infinite;
+}
+
+.num-pill {
+  background: rgba(30, 15, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 8px 5px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.num-pill:hover, .num-pill.active {
+  transform: scale(1.1);
+  background: var(--pill-color);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.4), 0 0 15px var(--pill-color);
+  border-color: rgba(255,255,255,0.6);
+}
+
+/* Footer Banner */
+.num-footer-banner {
+  background: linear-gradient(90deg, rgba(60, 20, 100, 0) 0%, rgba(60, 20, 100, 0.8) 20%, rgba(60, 20, 100, 0.8) 80%, rgba(60, 20, 100, 0) 100%);
+  text-align: center;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #ffb800;
+  text-shadow: 0 2px 10px rgba(255, 184, 0, 0.4);
+}
+
+.num-footer-banner span {
+  font-size: 40px;
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+}
+
+@keyframes float-3d-num {
+  0% { transform: translateY(0px) rotateX(5deg) rotateY(-5deg) scale(1); }
+  50% { transform: translateY(-10px) rotateX(-5deg) rotateY(5deg) scale(1.05); }
+  100% { transform: translateY(0px) rotateX(5deg) rotateY(-5deg) scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .pills-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .cards-1to10 {
+    flex-wrap: wrap;
+  }
+  .num-card-1-10 {
+    flex: 1 1 18%;
+  }
+  .pills-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .side-graphic {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .num-card-1-10 {
+    flex: 1 1 30%;
+  }
+  .pills-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Hide padding when embedded */
+.main-content:has(.numbers-wrapper) {
+  padding: 0 !important;
+  background-color: #140536;
+}

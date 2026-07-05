@@ -1,0 +1,391 @@
+.main-content:has(.profile-page-wrapper) {
+  padding: 0;
+  background: radial-gradient(circle at top right, #16213e 0%, #1a1a2e 100%);
+}
+
+.main-content:has(.profile-page-wrapper) .top-navbar {
+  padding: 20px 40px 0 40px;
+}
+
+.profile-page-wrapper {
+  padding: 2rem;
+  min-height: calc(100vh - 70px);
+  width: 100%;
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+  border-radius: 30px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #a83af9, #6a11cb);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  color: white;
+  box-shadow: 0 10px 20px rgba(168, 58, 249, 0.4);
+}
+
+.profile-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.profile-email {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ff4757;
+  border: 1px solid rgba(255, 71, 87, 0.5);
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #ff4757;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+}
+
+/* Plans Section */
+.plans-section {
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 4rem;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.plans-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.plans-subtitle {
+  color: #a0a0a0;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.plan-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  padding: 2.5rem 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(5px);
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.plan-card.premium {
+  background: linear-gradient(180deg, rgba(255, 20, 147, 0.1) 0%, rgba(255, 20, 147, 0) 100%);
+  border-color: rgba(255, 20, 147, 0.5);
+  transform: scale(1.05);
+}
+
+.plan-card.premium:hover {
+  transform: scale(1.05) translateY(-10px);
+}
+
+.plan-card.pro {
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.1) 0%, rgba(0, 210, 255, 0) 100%);
+  border-color: rgba(0, 210, 255, 0.5);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff1493, #ff7eb3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 5px 10px rgba(255, 20, 147, 0.3);
+}
+
+.plan-name {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.plan-price {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: super;
+}
+
+.period {
+  font-size: 1rem;
+  color: #a0a0a0;
+  font-weight: normal;
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem 0;
+  text-align: left;
+}
+
+.plan-features li {
+  color: #d0d0d0;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.plan-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #00e676;
+  font-weight: bold;
+}
+
+.btn-plan {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-plan.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #a0a0a0;
+  cursor: default;
+}
+
+.btn-plan.upgrade {
+  background: linear-gradient(135deg, #ff1493, #00d2ff);
+  color: white;
+  box-shadow: 0 10px 20px rgba(255, 20, 147, 0.3);
+}
+
+.btn-plan.upgrade:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(255, 20, 147, 0.5);
+}
+
+/* Decors */
+.decor-shape {
+  position: absolute;
+  z-index: 1;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,20,147,0.1) 0%, transparent 70%);
+  top: 10%;
+  right: -5%;
+}
+
+.shape-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0,210,255,0.1) 0%, transparent 70%);
+  bottom: 0;
+  left: -10%;
+}
+
+/* Kids Settings Section */
+.kids-settings-section {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+}
+
+.settings-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.settings-subtitle {
+  color: #a0a0a0;
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.details-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.5rem top 50%;
+  background-size: 0.65rem auto;
+}
+
+.form-group select option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00d2ff;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #21d65d, #0ba360);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(33, 214, 93, 0.3);
+  margin-top: 1rem;
+}
+
+.btn-save:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(33, 214, 93, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .profile-page-wrapper {
+    padding: 1rem;
+  }
+  .profile-header {
+    padding: 2rem 1rem;
+    margin-top: 1rem;
+  }
+  .profile-name {
+    font-size: 1.5rem;
+  }
+  .avatar-circle {
+    width: 80px;
+    height: 80px;
+  }
+  .kids-settings-section {
+    padding: 2rem 1.5rem;
+  }
+  .settings-title {
+    font-size: 1.5rem;
+  }
+  .plans-title {
+    font-size: 1.8rem;
+  }
+  .plans-grid {
+    gap: 1rem;
+    padding: 0;
+  }
+  .plan-card {
+    padding: 1.5rem;
+  }
+}

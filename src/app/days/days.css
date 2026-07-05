@@ -1,0 +1,232 @@
+/* days.css - Premium UI for Days Page */
+
+.days-wrapper {
+  background: radial-gradient(circle at top, #140536, #09021c 80%);
+  color: white;
+  min-height: 100vh;
+  padding: 40px 50px;
+  position: relative;
+  font-family: inherit;
+  overflow-x: hidden;
+}
+
+/* Header Section */
+.days-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 10;
+}
+
+.days-header-left, .days-header-right {
+  font-size: 80px;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  animation: float-3d-days 6s ease-in-out infinite;
+  display: flex;
+  gap: 10px;
+}
+
+.days-header-center {
+  text-align: center;
+  flex: 1;
+}
+
+.days-main-title {
+  font-size: 55px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.3);
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.days-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+/* Play Sequence Button */
+.play-all-btn-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.play-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #4facfe;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+  transition: all 0.3s ease;
+}
+
+.play-all-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 25px rgba(79, 172, 254, 0.6);
+}
+
+.play-all-btn.sequence-playing {
+  background-color: #ff0844;
+  box-shadow: 0 0 25px rgba(255, 8, 68, 0.8);
+  animation: pulse-glow-btn 1.5s infinite;
+}
+
+/* Days Grid */
+.premium-days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding-bottom: 50px;
+  justify-items: center;
+}
+
+/* Glass Card */
+.day-glass-card {
+  background: rgba(40, 20, 80, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  padding: 30px 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Card hover and active states based on theme color */
+.day-glass-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--day-color);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 2px 10px rgba(255,255,255,0.1), 0 0 25px var(--day-color);
+}
+
+.day-glass-card.playing-active {
+  border-color: var(--day-color);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 2px 10px rgba(255,255,255,0.1), 0 0 40px var(--day-color);
+  transform: translateY(-15px) scale(1.05);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Tiny Top Icon */
+.day-tiny-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.2), 0 5px 10px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+.day-tiny-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.day-glass-card:hover .day-tiny-icon {
+  background: var(--day-color);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.4), 0 0 15px var(--day-color);
+  transform: rotate(10deg) scale(1.1);
+}
+
+/* Day Typography */
+.day-name {
+  font-size: 26px;
+  font-weight: 900;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+  color: white;
+  text-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+  transition: color 0.3s ease;
+}
+
+.day-glass-card:hover .day-name {
+  color: var(--day-color);
+  text-shadow: 2px 4px 10px rgba(0,0,0,0.5), 0 0 20px var(--day-color);
+}
+
+.day-glass-card.playing-active .day-name {
+  color: var(--day-color);
+  text-shadow: 0 0 20px var(--day-color);
+  transform: scale(1.1);
+}
+
+/* Main Image */
+.day-main-img {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  aspect-ratio: 1/1;
+}
+
+.day-main-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.day-glass-card:hover .day-main-img img {
+  transform: scale(1.15);
+}
+
+.day-glass-card.playing-active .day-main-img {
+  animation: pulse-glow-img 1.5s infinite;
+}
+
+@keyframes float-3d-days {
+  0% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-10px) rotate(5deg) scale(1.05); }
+  100% { transform: translateY(0px) rotate(0deg) scale(1); }
+}
+
+@keyframes pulse-glow-btn {
+  0% { box-shadow: 0 0 10px rgba(255, 8, 68, 0.6); }
+  50% { box-shadow: 0 0 30px rgba(255, 8, 68, 1); }
+  100% { box-shadow: 0 0 10px rgba(255, 8, 68, 0.6); }
+}
+
+@keyframes pulse-glow-img {
+  0% { box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 10px var(--day-color); }
+  50% { box-shadow: 0 10px 40px var(--day-color), 0 0 30px var(--day-color); }
+  100% { box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 10px var(--day-color); }
+}
+
+/* Hide padding when embedded */
+.main-content:has(.days-wrapper) {
+  padding: 0 !important;
+  background-color: #140536;
+}
+
+@media (max-width: 768px) {
+  .days-header-left, .days-header-right {
+    display: none;
+  }
+  .days-main-title {
+    font-size: 40px;
+  }
+}
