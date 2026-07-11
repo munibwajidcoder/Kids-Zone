@@ -525,6 +525,7 @@ body {
   letter-spacing: 2px;
   background: linear-gradient(90deg, #00f2fe 0%, #4facfe 30%, #f093fb 70%, #f5576c 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-transform: uppercase;
   filter: drop-shadow(0 0 10px rgba(79, 172, 254, 0.6));
@@ -2871,4 +2872,15 @@ body {
   .fab-robot {
     font-size: 30px;
   }
+}
+
+/* Force Hide Next.js & Vercel Dev Indicators globally */
+nextjs-portal,
+#vercel-toolbar,
+#__next-build-watcher,
+.vercel-toolbar {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
