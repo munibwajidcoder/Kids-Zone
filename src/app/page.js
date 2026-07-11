@@ -2,13 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/utils/supabase";
 import { speakImmediate, setupSpeechEngine } from "@/utils/speech";
 import "./home.css";
 
 export default function Home() {
   const [greetTriggered, setGreetTriggered] = useState(false);
+  const [session, setSession] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
     // Setup TTS voices and priming
     const cleanupSpeech = setupSpeechEngine();
 
@@ -45,6 +53,15 @@ export default function Home() {
     { name: "Fun Math", desc: "Play with Numbers", href: "/addition", img: "/images/icon_math_3d_1782992654095.png", bg: "linear-gradient(135deg, #2f80ed, #56ccf2)" },
   ];
 
+  const handleProtectedNavigation = (e, path) => {
+    e.preventDefault();
+    if (!session) {
+      router.push("/login");
+    } else {
+      router.push(path);
+    }
+  };
+
   return (
     <div className="home-page-wrapper">
 
@@ -60,7 +77,7 @@ export default function Home() {
             A safe, interactive and fun place for kids to learn ABC, Numbers, Rhymes, Colors, Animals and so much more!
           </p>
           <div className="hero-buttons">
-            <button className="btn-primary" onClick={() => { speakImmediate("Let's start learning!"); window.location.href='/abc'; }}>
+            <button className="btn-primary" onClick={(e) => { speakImmediate("Let's start learning!"); handleProtectedNavigation(e, '/abc'); }}>
               <div className="btn-icon-circle"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
               Start Learning
             </button>
@@ -80,9 +97,9 @@ export default function Home() {
       </section>
 
       {/* Category Grid */}
-      <section className="category-row home-section-padded">
+      <section id="categories" className="category-row home-section-padded">
         {categories.map((cat, idx) => (
-          <Link href={cat.href} key={cat.name} className="cat-card">
+          <a href={cat.href} onClick={(e) => handleProtectedNavigation(e, cat.href)} key={cat.name} className="cat-card">
             <div className="cat-bg" style={{ background: cat.bg }}></div>
             <div className="cat-img-wrapper">
               <img src={cat.img} alt={cat.name} />
@@ -92,7 +109,7 @@ export default function Home() {
             <div className="cat-arrow">
               <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" strokeWidth="2"/></svg>
             </div>
-          </Link>
+          </a>
         ))}
       </section>
 
@@ -122,7 +139,7 @@ export default function Home() {
             <button className="view-all">View All</button>
           </div>
           
-          <div className="act-item" onClick={() => window.location.href='/colors'}>
+          <div className="act-item" onClick={(e) => handleProtectedNavigation(e, '/colors')}>
             <div className="act-icon c-rainbow">🌈</div>
             <div className="act-info">
               <h4>Color the Rainbow</h4>
@@ -131,7 +148,7 @@ export default function Home() {
             <div className="cat-arrow" style={{background: 'transparent', border: '1px solid rgba(255,255,255,0.2)'}}><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" strokeWidth="2"/></svg></div>
           </div>
 
-          <div className="act-item" onClick={() => window.location.href='/animals'}>
+          <div className="act-item" onClick={(e) => handleProtectedNavigation(e, '/animals')}>
             <div className="act-icon c-puzzle">🐾</div>
             <div className="act-info">
               <h4>Animal Puzzle</h4>
@@ -140,7 +157,7 @@ export default function Home() {
             <div className="cat-arrow" style={{background: 'transparent', border: '1px solid rgba(255,255,255,0.2)'}}><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" strokeWidth="2"/></svg></div>
           </div>
 
-          <div className="act-item" onClick={() => window.location.href='/123'}>
+          <div className="act-item" onClick={(e) => handleProtectedNavigation(e, '/123')}>
             <div className="act-icon c-math">123</div>
             <div className="act-info">
               <h4>Counting Fun</h4>

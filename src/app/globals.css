@@ -245,7 +245,7 @@ body {
 /* Parent Zone Badge */
 .dark-theme .parent-zone {
   margin-top: auto;
-  margin-bottom: 40px; /* Added to prevent overlap with Next.js dev indicator */
+  margin-bottom: 100px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 20px;
@@ -485,7 +485,18 @@ body {
 
 /* Fix padding for pages where main-content padding is removed */
 .main-content:has(.abc-page-wrapper) .top-navbar,
-.main-content:has(.home-page-wrapper) .top-navbar {
+.main-content:has(.home-page-wrapper) .top-navbar,
+.main-content:has(.numbers-wrapper) .top-navbar,
+.main-content:has(.rhymes-wrapper) .top-navbar,
+.main-content:has(.colors-wrapper) .top-navbar,
+.main-content:has(.animals-wrapper) .top-navbar,
+.main-content:has(.addition-wrapper) .top-navbar,
+.main-content:has(.subtraction-wrapper) .top-navbar,
+.main-content:has(.days-wrapper) .top-navbar,
+.main-content:has(.months-wrapper) .top-navbar,
+.main-content:has(.tables-wrapper) .top-navbar,
+.main-content:has(.ai-chat-wrapper) .top-navbar,
+.main-content:has(.vegetables-wrapper) .top-navbar {
   padding: 20px 40px 0 40px;
 }
 
@@ -2792,5 +2803,72 @@ body {
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
+  }
+}
+
+/* Global AI Chat FAB */
+.global-ai-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #a83af9, #ff1493);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(255, 20, 147, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  z-index: 9999;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.global-ai-fab:hover {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 15px 35px rgba(168, 58, 249, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+}
+
+.fab-robot {
+  font-size: 35px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.global-ai-fab:hover .fab-robot {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.fab-tooltip {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  background: #ffb800;
+  color: #140536;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: bounce-tooltip 2s infinite;
+}
+
+@keyframes bounce-tooltip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (max-width: 768px) {
+  .global-ai-fab {
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+  }
+  .fab-robot {
+    font-size: 30px;
   }
 }

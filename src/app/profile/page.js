@@ -8,6 +8,7 @@ import "./profile.css";
 export default function Profile() {
   const [isMounted, setIsMounted] = useState(false);
   const [userName, setUserName] = useState("Awesome Learner");
+  const [avatar, setAvatar] = useState(null);
   
   // Kid's Details State
   const [kidDetails, setKidDetails] = useState({
@@ -16,8 +17,23 @@ export default function Profile() {
     gender: "boy",
     favorite: "math"
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const router = useRouter();
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+        localStorage.setItem("user_avatar", reader.result);
+        window.dispatchEvent(new Event('avatarUpdated'));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -42,6 +58,9 @@ export default function Profile() {
     if (savedDetails) {
       setKidDetails(JSON.parse(savedDetails));
     }
+
+    const savedAvatar = localStorage.getItem("user_avatar");
+    if (savedAvatar) setAvatar(savedAvatar);
   }, [router]);
 
   const handleLogout = async () => {
@@ -50,10 +69,61 @@ export default function Profile() {
     router.push("/");
   };
 
-  const handleSaveDetails = (e) => {
+  const handleSaveDetails = async (e) => {
     e.preventDefault();
-    localStorage.setItem("kid_details", JSON.stringify(kidDetails));
-    alert("Kid's details saved successfully!");
+    setIsSaving(true);
+    setSaveSuccess(false);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("You must be logged in to save details.");
+
+      // Check if a record already exists
+      const { data: existingData } = await supabase
+        .from('kid_details')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (existingData) {
+        // Update existing record
+        const { error: updateError } = await supabase
+          .from('kid_details')
+          .update({
+            nickname: kidDetails.name,
+            age_group: kidDetails.age,
+            gender: kidDetails.gender,
+            favorite_activity: kidDetails.favorite
+          })
+          .eq('id', existingData.id);
+          
+        if (updateError) throw updateError;
+      } else {
+        // Insert new record
+        const { error: insertError } = await supabase
+          .from('kid_details')
+          .insert({
+            user_id: session.user.id,
+            nickname: kidDetails.name,
+            age_group: kidDetails.age,
+            gender: kidDetails.gender,
+            favorite_activity: kidDetails.favorite
+          });
+          
+        if (insertError) throw insertError;
+      }
+
+      // Save to local storage as fallback
+      localStorage.setItem("kid_details", JSON.stringify(kidDetails));
+      
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error saving details:", error.message);
+      alert("Error: " + error.message);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!isMounted) return null;
@@ -61,19 +131,57 @@ export default function Profile() {
   return (
     <div className="profile-page-wrapper">
       
+      {/* Back Button */}
+      <button 
+        className="btn-back"
+        onClick={() => router.push("/")}
+        style={{
+          alignSelf: 'flex-start',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          color: 'white',
+          padding: '8px 15px',
+          borderRadius: '20px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          marginBottom: '1rem',
+          backdropFilter: 'blur(10px)',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Kids Zone
+      </button>
+
       {/* Top Profile Header */}
       <div className="profile-header">
-        <div className="avatar-circle">
-          {/* A cute custom SVG avatar */}
-          <svg viewBox="0 0 100 100" width="80" height="80">
-            <circle cx="50" cy="50" r="45" fill="#fde0c4"/>
-            <path d="M 30 40 Q 50 20 70 40" stroke="#8b4513" strokeWidth="4" fill="none" strokeLinecap="round"/>
-            <circle cx="35" cy="45" r="5" fill="#333"/>
-            <circle cx="65" cy="45" r="5" fill="#333"/>
-            <path d="M 40 65 Q 50 75 60 65" stroke="#ff4757" strokeWidth="4" fill="none" strokeLinecap="round"/>
-            <circle cx="20" cy="55" r="8" fill="#ff7eb3" opacity="0.5"/>
-            <circle cx="80" cy="55" r="8" fill="#ff7eb3" opacity="0.5"/>
-          </svg>
+        <div className="avatar-circle" style={{ position: 'relative', overflow: 'hidden' }}>
+          {avatar ? (
+            <img src={avatar} alt="Profile Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+          ) : (
+            <svg viewBox="0 0 100 100" width="80" height="80">
+              <circle cx="50" cy="50" r="45" fill="#fde0c4"/>
+              <path d="M 30 40 Q 50 20 70 40" stroke="#8b4513" strokeWidth="4" fill="none" strokeLinecap="round"/>
+              <circle cx="35" cy="45" r="5" fill="#333"/>
+              <circle cx="65" cy="45" r="5" fill="#333"/>
+              <path d="M 40 65 Q 50 75 60 65" stroke="#ff4757" strokeWidth="4" fill="none" strokeLinecap="round"/>
+              <circle cx="20" cy="55" r="8" fill="#ff7eb3" opacity="0.5"/>
+              <circle cx="80" cy="55" r="8" fill="#ff7eb3" opacity="0.5"/>
+            </svg>
+          )}
+          <label style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', 
+            background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', cursor: 'pointer', borderBottomLeftRadius: '50px', borderBottomRightRadius: '50px'
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageUpload} />
+          </label>
         </div>
         <h1 className="profile-name">{userName}</h1>
         <p className="profile-email">Ready for a learning adventure!</p>
@@ -133,7 +241,17 @@ export default function Profile() {
             </select>
           </div>
 
-          <button type="submit" className="btn-save">Save Details</button>
+          <button 
+            type="submit" 
+            className={`btn-save ${saveSuccess ? 'success' : ''}`} 
+            disabled={isSaving}
+            style={{
+              background: saveSuccess ? 'linear-gradient(135deg, #00e676, #00b050)' : 'linear-gradient(135deg, #a83af9, #6a11cb)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            {isSaving ? "Saving..." : saveSuccess ? "✓ Details Saved Successfully" : "Save Details"}
+          </button>
         </form>
       </div>
 

@@ -42,7 +42,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  min-height: calc(100vh - 100px); /* Full screen height */
+  min-height: 100vh; /* Full screen height to prevent gaps */
   gap: 30px;
   z-index: 10;
   

@@ -255,7 +255,29 @@
 
 .sub-quiz-input:focus {
   border-color: #ff0844;
+  background-color: rgba(40, 20, 80, 0.8); /* Force dark background on focus */
+  color: white;
   box-shadow: 0 0 20px rgba(255, 8, 68, 0.4), inset 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Remove number input spin buttons */
+.sub-quiz-input::-webkit-outer-spin-button,
+.sub-quiz-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sub-quiz-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Prevent autofill from turning background white */
+.sub-quiz-input:-webkit-autofill,
+.sub-quiz-input:-webkit-autofill:hover, 
+.sub-quiz-input:-webkit-autofill:focus, 
+.sub-quiz-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(40, 20, 80, 0.8) inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .sub-quiz-input:disabled {
@@ -272,16 +294,16 @@
   letter-spacing: 2px;
   border-radius: 20px;
   border: none;
-  background: linear-gradient(90deg, #ff0844 0%, #ffb199 100%);
+  background: linear-gradient(135deg, #a83af9 0%, #ff1493 100%);
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 15px rgba(255, 8, 68, 0.5);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 15px rgba(168, 58, 249, 0.5);
 }
 
 .check-answer-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 25px rgba(0,0,0,0.4), 0 0 25px rgba(255, 8, 68, 0.8);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4), 0 0 25px rgba(255, 20, 147, 0.8);
 }
 
 .check-answer-btn:disabled {

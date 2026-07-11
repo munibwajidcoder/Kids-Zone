@@ -66,6 +66,28 @@ export default function Login() {
   const handleAuth = async (e) => {
     e.preventDefault();
     setError(null);
+    
+    // Explicit Validation
+    if (authMethod === "email") {
+      if (!email || !password) {
+        setError("Please enter both email and password.");
+        return;
+      }
+      if (!isLogin && !fullName) {
+        setError("Please enter your full name.");
+        return;
+      }
+    } else if (authMethod === "phone") {
+      if (!phone) {
+        setError("Please enter your phone number.");
+        return;
+      }
+      if (otpSent && !otp) {
+        setError("Please enter the OTP.");
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -82,10 +104,14 @@ export default function Login() {
   };
 
   const handleSocialLogin = async (provider) => {
+    setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
         redirectTo: window.location.origin,
+        queryParams: {
+          prompt: 'select_account',
+        },
       }
     });
     if (error) setError(error.message);
@@ -143,9 +169,8 @@ export default function Login() {
                     id="fullName" 
                     type="text" 
                     placeholder="e.g. John Doe" 
-                    required 
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    onChange={(e) => { setFullName(e.target.value); setError(null); }}
                   />
                 </div>
               )}
@@ -154,9 +179,8 @@ export default function Login() {
                 <input 
                   type="email" 
                   placeholder="hello@kidszone.com" 
-                  required 
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); setError(null); }}
                 />
               </div>
               <div className="input-group">
@@ -164,9 +188,8 @@ export default function Login() {
                 <input 
                   type="password" 
                   placeholder="••••••••" 
-                  required 
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
                 />
               </div>
             </>
@@ -179,9 +202,8 @@ export default function Login() {
                   <input 
                     type="tel" 
                     placeholder="+923001234567" 
-                    required 
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => { setPhone(e.target.value); setError(null); }}
                   />
                   <small style={{ color: '#a0a0a0', marginTop: '5px' }}>Include country code (e.g. +92)</small>
                 </div>
@@ -191,9 +213,8 @@ export default function Login() {
                   <input 
                     type="text" 
                     placeholder="123456" 
-                    required 
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
+                    onChange={(e) => { setOtp(e.target.value); setError(null); }}
                   />
                   <small style={{ color: '#00d2ff', marginTop: '5px', cursor: 'pointer' }} onClick={() => setOtpSent(false)}>Change Phone Number</small>
                 </div>

@@ -1,28 +1,54 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase";
 
 export default function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const mainContentRef = useRef(null);
+  const [userAvatar, setUserAvatar] = useState(null);
+
+  useEffect(() => {
+    const loadAvatar = () => {
+      const savedAvatar = localStorage.getItem("user_avatar");
+      if (savedAvatar) setUserAvatar(savedAvatar);
+    };
+
+    loadAvatar();
+    window.addEventListener('avatarUpdated', loadAvatar);
+    return () => window.removeEventListener('avatarUpdated', loadAvatar);
+  }, []);
+
+  useEffect(() => {
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTop = 0;
+    }
+  }, [pathname]);
 
   useEffect(() => {
     // Check active session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsLoggedIn(!!session);
+      if (!session && pathname !== '/' && pathname !== '/login') {
+        router.push('/login');
+      }
     });
 
     // Listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session);
+      if (!session && pathname !== '/' && pathname !== '/login') {
+        router.push('/login');
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, [pathname]);
+  }, [pathname, router]);
 
   const navItems = [
     {
@@ -135,6 +161,15 @@ export default function AppLayout({ children }) {
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" fill="none" stroke="currentColor" strokeWidth="2" />
         </svg>
       )
+    },
+    {
+      name: "Talk to AI",
+      href: "/ai-chat",
+      icon: (
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5zM9 7a3 3 0 0 1 6 0v3a3 3 0 0 1-6 0V7zm10 3a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 0 0-2 0 7 7 0 0 0 6 6.92V20H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-3v-3.08A7 7 0 0 0 19 10z" fill="currentColor"/>
+        </svg>
+      )
     }
   ];
 
@@ -182,18 +217,11 @@ export default function AppLayout({ children }) {
           })}
         </nav>
 
-        {/* Parent Zone Badge */}
-        <div className="parent-zone" style={{ marginTop: 'auto', display: 'flex' }}>
-          <div className="pz-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
-          <div className="pz-text">
-            <div style={{fontWeight: 700, fontSize: '13px'}}>Parent Zone</div>
-            <div style={{fontSize: '11px', color: 'rgba(255,255,255,0.6)'}}>Safe & Secure</div>
-          </div>
-        </div>
+
       </aside>
 
       {/* Main Content */}
-      <main className="main-content">
+      <main className="main-content" ref={mainContentRef}>
         <nav className="top-navbar premium-navbar">
           <div className="navbar-left">
             <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)}>
@@ -210,9 +238,13 @@ export default function AppLayout({ children }) {
           <div className="navbar-right nav-user-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             {isLoggedIn ? (
               <Link href="/profile" className="btn-profile" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px', color: '#fff', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)', transition: 'all 0.3s ease' }}>
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
+                {userAvatar ? (
+                  <img src={userAvatar} alt="Profile" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} />
+                ) : (
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                )}
                 <span style={{ fontWeight: 'bold' }}>Profile</span>
               </Link>
             ) : (
@@ -225,6 +257,14 @@ export default function AppLayout({ children }) {
 
         {children}
       </main>
+
+      {/* Global AI Chat Floating Button */}
+      {pathname !== '/ai-chat' && (
+        <Link href="/ai-chat" className="global-ai-fab" title="Talk to Sparky!">
+          <div className="fab-robot">🤖</div>
+          <div className="fab-tooltip">Talk to AI</div>
+        </Link>
+      )}
     </div>
   );
 }
