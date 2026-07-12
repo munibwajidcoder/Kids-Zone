@@ -24,7 +24,7 @@ export default function Home() {
     const speakWelcome = () => {
       if (greetTriggered) return;
       setGreetTriggered(true);
-      speakImmediate("Welcome to Kids Zone! Let's play and learn together.");
+      speakImmediate("Welcome to Mini World! Let's play and learn together.");
       removeListeners();
     };
 
@@ -69,7 +69,7 @@ export default function Home() {
       <section className="hero-section">
         <div className="hero-content">
           <div className="welcome-badge">Welcome to</div>
-          <h1 className="hero-title">KIDS-ZONE</h1>
+          <h1 className="hero-title">MINI WORLD</h1>
           <h2 className="hero-subtitle">
             <span className="color-yellow">Learn</span>, <span className="color-pink">Play</span> & Grow Together!
           </h2>
@@ -175,7 +175,7 @@ export default function Home() {
           </div>
           <div className="quote-mark">"</div>
           <p className="test-text">
-            Kids Zone has been amazing for my child! The content is engaging, educational and so much fun.
+            Mini World has been amazing for my child! The content is engaging, educational and so much fun.
           </p>
           <div className="stars">★★★★★</div>
           <div className="test-user">
@@ -218,7 +218,7 @@ export default function Home() {
       <footer className="site-footer home-footer" style={{marginTop: '40px', padding: '40px 20px', borderRadius: '30px'}}>
         <div className="footer-content" style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px', marginBottom: '30px'}}>
           <div className="footer-section" style={{flex: 1, minWidth: '200px'}}>
-            <h4 style={{fontSize: '18px', marginBottom: '15px', fontWeight: '800'}}>Kids-Zone</h4>
+            <h4 style={{fontSize: '18px', marginBottom: '15px', fontWeight: '800'}}>Mini World</h4>
             <p className="footer-desc" style={{fontSize: '14px', lineHeight: '1.6', marginBottom: '20px'}}>
               Let's play and learn! Exploring the world of knowledge one step at a time with fun and interactive activities.
             </p>

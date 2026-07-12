@@ -28,6 +28,7 @@
   text-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.3);
   background: linear-gradient(90deg, #a83af9 0%, #ff1493 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -86,11 +87,11 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255,255,255,0.05);
   backdrop-filter: blur(20px);
   min-height: 200px;
+  max-height: 50vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-height: 400px;
-  overflow-y: auto;
 }
 
 /* Scrollbar for chat box */

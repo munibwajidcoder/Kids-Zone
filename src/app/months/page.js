@@ -9,20 +9,19 @@ export default function MonthsPage() {
   const [isPlayingSequence, setIsPlayingSequence] = useState(false);
   const isPlayingRef = useRef(false);
 
-  // We are using existing placeholder images for some months since new 3D image generation is temporarily paused.
   const months = [
-    { name: "January", season: "Winter", themeColor: "#3b82f6", img: "/images/months/january.png" },
-    { name: "February", season: "Winter", themeColor: "#ec4899", img: "/images/months/february.png" },
-    { name: "March", season: "Spring", themeColor: "#22c55e", img: "/images/months/march.png" },
-    { name: "April", season: "Spring", themeColor: "#facc15", img: "/images/months/march.png" },
-    { name: "May", season: "Spring", themeColor: "#a855f7", img: "/images/months/march.png" },
-    { name: "June", season: "Summer", themeColor: "#ef4444", img: "/images/months/february.png" },
-    { name: "July", season: "Summer", themeColor: "#f97316", img: "/images/months/february.png" },
-    { name: "August", season: "Summer", themeColor: "#eab308", img: "/images/months/february.png" },
-    { name: "September", season: "Autumn", themeColor: "#d97706", img: "/images/months/december.png" },
-    { name: "October", season: "Autumn", themeColor: "#ea580c", img: "/images/months/december.png" },
-    { name: "November", season: "Autumn", themeColor: "#78350f", img: "/images/months/december.png" },
-    { name: "December", season: "Winter", themeColor: "#0ea5e9", img: "/images/months/december.png" }
+    { name: "January", season: "Winter", themeColor: "#3b82f6", img: "/images/months/jan_3d.png" },
+    { name: "February", season: "Winter", themeColor: "#ec4899", img: "/images/months/feb_3d.png" },
+    { name: "March", season: "Spring", themeColor: "#22c55e", img: "/images/months/mar_3d.png" },
+    { name: "April", season: "Spring", themeColor: "#facc15", img: "/images/months/apr_3d.png" },
+    { name: "May", season: "Spring", themeColor: "#a855f7", img: "/images/months/may_3d.png" },
+    { name: "June", season: "Summer", themeColor: "#ef4444", img: "/images/months/jun_3d.png" },
+    { name: "July", season: "Summer", themeColor: "#f97316", img: "/images/months/jul_3d.png" },
+    { name: "August", season: "Summer", themeColor: "#eab308", img: "/images/months/aug_3d.png" },
+    { name: "September", season: "Autumn", themeColor: "#d97706", img: "/images/months/sep_3d.png" },
+    { name: "October", season: "Autumn", themeColor: "#ea580c", img: "/images/months/oct_3d.png" },
+    { name: "November", season: "Autumn", themeColor: "#78350f", img: "/images/months/nov_3d.png" },
+    { name: "December", season: "Winter", themeColor: "#0ea5e9", img: "/images/months/dec_3d.png" }
   ];
 
   const handleCardClick = (name) => {

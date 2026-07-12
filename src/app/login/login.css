@@ -93,6 +93,16 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
+/* Fix for Chrome/Edge autofill background color */
+.input-group input:-webkit-autofill,
+.input-group input:-webkit-autofill:hover, 
+.input-group input:-webkit-autofill:focus, 
+.input-group input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #1a1b3c inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .btn-auth {
   background: linear-gradient(135deg, #a83af9, #6a11cb);
   color: white;

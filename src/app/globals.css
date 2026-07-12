@@ -472,32 +472,56 @@ body {
 }
 
 
-/* Global Top Navbar Styles */
+/* Global Top Navbar Styles - Glassmorphism Pill */
 .top-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 100;
-  width: 100%;
+  margin-bottom: 0;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  right: 40px;
+  z-index: 1000;
+  background: rgba(45, 20, 85, 0.4); /* Deep purple translucent */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  padding: 12px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* Fix padding for pages where main-content padding is removed */
-.main-content:has(.abc-page-wrapper) .top-navbar,
-.main-content:has(.home-page-wrapper) .top-navbar,
-.main-content:has(.numbers-wrapper) .top-navbar,
-.main-content:has(.rhymes-wrapper) .top-navbar,
-.main-content:has(.colors-wrapper) .top-navbar,
-.main-content:has(.animals-wrapper) .top-navbar,
-.main-content:has(.addition-wrapper) .top-navbar,
-.main-content:has(.subtraction-wrapper) .top-navbar,
-.main-content:has(.days-wrapper) .top-navbar,
-.main-content:has(.months-wrapper) .top-navbar,
-.main-content:has(.tables-wrapper) .top-navbar,
-.main-content:has(.ai-chat-wrapper) .top-navbar,
-.main-content:has(.vegetables-wrapper) .top-navbar {
-  padding: 20px 40px 0 40px;
+.main-content:has(.abc-page-wrapper),
+.main-content:has(.home-page-wrapper),
+.main-content:has(.numbers-wrapper),
+.main-content:has(.rhymes-wrapper),
+.main-content:has(.colors-wrapper),
+.main-content:has(.animals-wrapper),
+.main-content:has(.addition-wrapper),
+.main-content:has(.subtraction-wrapper),
+.main-content:has(.days-wrapper),
+.main-content:has(.months-wrapper),
+.main-content:has(.tables-wrapper),
+.main-content:has(.ai-chat-wrapper),
+.main-content:has(.vegetables-wrapper) {
+  padding: 0 !important;
+}
+
+.abc-page-wrapper,
+.numbers-wrapper,
+.rhymes-wrapper,
+.colors-wrapper,
+.animals-wrapper,
+.addition-wrapper,
+.subtraction-wrapper,
+.days-wrapper,
+.months-wrapper,
+.tables-wrapper,
+.ai-chat-wrapper,
+.vegetables-wrapper {
+  padding-top: 130px !important;
 }
 
 .navbar-left {

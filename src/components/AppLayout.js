@@ -7,7 +7,17 @@ import { supabase } from "@/utils/supabase";
 
 export default function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    if (typeof window !== 'undefined') {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('sb-') && key.endsWith('-auth-token')) {
+          return true;
+        }
+      }
+    }
+    return false;
+  });
   const pathname = usePathname();
   const router = useRouter();
   const mainContentRef = useRef(null);
@@ -226,7 +236,7 @@ export default function AppLayout({ children }) {
 
         <div className="logo-area">
           <div className="logo-title">
-            <span style={{color: '#ffb800'}}>★</span> KIDS-ZONE
+            <span style={{color: '#ffb800'}}>★</span> MINI WORLD
           </div>
           <div className="logo-subtitle">Learn • Play • Grow</div>
         </div>
@@ -260,10 +270,34 @@ export default function AppLayout({ children }) {
                 <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
               </svg>
             </button>
+            {pathname === '/profile' && (
+              <button 
+                onClick={() => router.push("/")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: 'white',
+                  padding: '8px 15px',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Mini World
+              </button>
+            )}
           </div>
           
           <div className="navbar-center">
-            <div className="premium-logo-title">KIDS-ZONE</div>
+            <div className="premium-logo-title">MINI WORLD</div>
           </div>
           
           <div className="navbar-right nav-user-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

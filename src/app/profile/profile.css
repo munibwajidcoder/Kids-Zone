@@ -3,12 +3,8 @@
   background: radial-gradient(circle at 50% 50%, #2a154a 0%, #0f0c29 100%);
 }
 
-.main-content:has(.profile-page-wrapper) .top-navbar {
-  padding: 20px 40px 0 40px;
-}
-
 .profile-page-wrapper {
-  padding: 2rem;
+  padding: 130px 2rem 2rem 2rem;
   min-height: calc(100vh - 70px);
   width: 100%;
   flex: 1;

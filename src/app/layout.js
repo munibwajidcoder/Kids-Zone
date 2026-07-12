@@ -2,7 +2,7 @@ import "./globals.css";
 import AppLayout from "@/components/AppLayout";
 
 export const metadata = {
-  title: "Kids-Zone - Learning Hub",
+  title: "Mini World - Learning Hub",
   description: "Learn ABC, Numbers, Rhymes, and Fun Activities! Exploring the world of knowledge one step at a time with fun and interactive activities.",
   robots: "index, follow",
 };

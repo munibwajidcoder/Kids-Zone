@@ -712,12 +712,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- 4. Hyper-Robust Auto-Greeting ---
-        // Specifically optimized for Chrome and Edge to ensure "Hey kids, welcome to Kids Zone" plays on load.
+        // Specifically optimized for Chrome and Edge to ensure "Hey kids, welcome to Mini World" plays on load.
         // Chrome requires a "User Gesture" (click, key, etc.) before speaking.
         const isActuallyHome = document.querySelector('.activities-grid') && document.querySelector('.image-cards');
         
         if (isActuallyHome) {
-            const welcomeText = "Hey kids, welcome to Kids Zone";
+            const welcomeText = "Hey kids, welcome to Mini World";
             let greetTriggered = false;
 
             const speakNow = () => {

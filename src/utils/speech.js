@@ -1,4 +1,4 @@
-// Speech Synthesis Utility for Kids-Zone
+// Speech Synthesis Utility for Mini World
 
 let availableVoices = [];
 let lastSpeakTime = 0;

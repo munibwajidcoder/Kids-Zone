@@ -7,15 +7,10 @@ import "./login.css";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const [authMethod, setAuthMethod] = useState("email"); // "email" or "phone"
-  
-  // States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
   
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,13 +19,16 @@ export default function Login() {
 
   const handleEmailAuth = async () => {
     if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) throw error;
+      
+      // Successfully logged in
+      router.push("/");
     } else {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -38,27 +36,16 @@ export default function Login() {
         }
       });
       if (error) throw error;
-      if (fullName) localStorage.setItem("user_name", fullName);
-    }
-    router.push("/");
-  };
 
-  const handlePhoneAuth = async () => {
-    if (!otpSent) {
-      // Step 1: Send OTP
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: phone,
-      });
-      if (error) throw error;
-      setOtpSent(true);
-    } else {
-      // Step 2: Verify OTP
-      const { error } = await supabase.auth.verifyOtp({
-        phone: phone,
-        token: otp,
-        type: 'sms'
-      });
-      if (error) throw error;
+      // Supabase returns a null session if email confirmation is required
+      // or if the user signs up with an email that already exists.
+      if (!data.session) {
+        throw new Error("Signup successful, but session not created. Please make sure 'Confirm Email' is disabled in your Supabase Authentication settings, or check if this email is already registered.");
+      }
+
+      if (fullName) localStorage.setItem("user_name", fullName);
+      
+      // Successfully signed up and logged in
       router.push("/");
     }
   };
@@ -68,34 +55,19 @@ export default function Login() {
     setError(null);
     
     // Explicit Validation
-    if (authMethod === "email") {
-      if (!email || !password) {
-        setError("Please enter both email and password.");
-        return;
-      }
-      if (!isLogin && !fullName) {
-        setError("Please enter your full name.");
-        return;
-      }
-    } else if (authMethod === "phone") {
-      if (!phone) {
-        setError("Please enter your phone number.");
-        return;
-      }
-      if (otpSent && !otp) {
-        setError("Please enter the OTP.");
-        return;
-      }
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+    if (!isLogin && !fullName) {
+      setError("Please enter your full name.");
+      return;
     }
 
     setLoading(true);
 
     try {
-      if (authMethod === "email") {
-        await handleEmailAuth();
-      } else if (authMethod === "phone") {
-        await handlePhoneAuth();
-      }
+      await handleEmailAuth();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -108,7 +80,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: window.location.origin + '/',
         queryParams: {
           prompt: 'select_account',
         },
@@ -127,7 +99,7 @@ export default function Login() {
       <div className="login-container">
         <div className="login-header">
           <h1 className="login-title">
-            {isLogin ? "Welcome Back!" : "Join Kids Zone!"}
+            {isLogin ? "Welcome Back!" : "Join Mini World!"}
           </h1>
           <p className="login-subtitle">
             {isLogin
@@ -136,98 +108,73 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Auth Method Tabs */}
-        <div className="auth-tabs" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-          <button 
-            type="button"
-            className={`btn-tab ${authMethod === 'email' ? 'active' : ''}`}
-            onClick={() => { setAuthMethod('email'); setError(null); setOtpSent(false); }}
-            style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: authMethod === 'email' ? '#00d2ff' : 'rgba(255,255,255,0.1)', color: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
-          >
-            Email
-          </button>
-          <button 
-            type="button"
-            className={`btn-tab ${authMethod === 'phone' ? 'active' : ''}`}
-            onClick={() => { setAuthMethod('phone'); setError(null); setOtpSent(false); }}
-            style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: authMethod === 'phone' ? '#00d2ff' : 'rgba(255,255,255,0.1)', color: '#fff', cursor: 'pointer', fontWeight: 'bold' }}
-          >
-            Phone Number
-          </button>
-        </div>
-
         {error && <div className="error-message" style={{ color: '#ff4757', background: 'rgba(255, 71, 87, 0.1)', padding: '10px', borderRadius: '10px', textAlign: 'center', marginBottom: '15px' }}>{error}</div>}
 
         <form className="login-form" onSubmit={handleAuth}>
           
-          {authMethod === "email" ? (
-            <>
-              {!isLogin && (
-                <div className="input-group">
-                  <label>Full Name</label>
-                  <input 
-                    id="fullName" 
-                    type="text" 
-                    placeholder="e.g. John Doe" 
-                    value={fullName}
-                    onChange={(e) => { setFullName(e.target.value); setError(null); }}
-                  />
-                </div>
-              )}
-              <div className="input-group">
-                <label>Email Address</label>
-                <input 
-                  type="email" 
-                  placeholder="hello@kidszone.com" 
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); setError(null); }}
-                />
-              </div>
-              <div className="input-group">
-                <label>Password</label>
-                <input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  value={password}
-                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {/* PHONE AUTH FLOW */}
-              {!otpSent ? (
-                <div className="input-group">
-                  <label>Phone Number</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+923001234567" 
-                    value={phone}
-                    onChange={(e) => { setPhone(e.target.value); setError(null); }}
-                  />
-                  <small style={{ color: '#a0a0a0', marginTop: '5px' }}>Include country code (e.g. +92)</small>
-                </div>
-              ) : (
-                <div className="input-group">
-                  <label>Enter 6-digit OTP</label>
-                  <input 
-                    type="text" 
-                    placeholder="123456" 
-                    value={otp}
-                    onChange={(e) => { setOtp(e.target.value); setError(null); }}
-                  />
-                  <small style={{ color: '#00d2ff', marginTop: '5px', cursor: 'pointer' }} onClick={() => setOtpSent(false)}>Change Phone Number</small>
-                </div>
-              )}
-            </>
+          {!isLogin && (
+            <div className="input-group">
+              <label>Full Name</label>
+              <input 
+                id="fullName" 
+                type="text" 
+                placeholder="e.g. John Doe" 
+                value={fullName}
+                autoComplete="off"
+                onChange={(e) => { setFullName(e.target.value); setError(null); }}
+              />
+            </div>
           )}
+          <div className="input-group">
+            <label>Email Address</label>
+            <input 
+              type="email" 
+              placeholder="hello@miniworld.com" 
+              value={email}
+              autoComplete="off"
+              onChange={(e) => { setEmail(e.target.value); setError(null); }}
+            />
+          </div>
+          <div className="input-group">
+            <label>Password</label>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <input 
+                type={showPassword ? "text" : "password"} 
+                placeholder="••••••••" 
+                value={password}
+                autoComplete="new-password"
+                onChange={(e) => { setPassword(e.target.value); setError(null); }}
+                style={{ width: '100%', paddingRight: '45px' }}
+              />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ 
+                  position: 'absolute', 
+                  right: '15px', 
+                  top: '50%', 
+                  transform: 'translateY(-50%)', 
+                  background: 'none', 
+                  border: 'none', 
+                  cursor: 'pointer', 
+                  color: 'rgba(255,255,255,0.6)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0
+                }}
+              >
+                {showPassword ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                )}
+              </button>
+            </div>
+          </div>
 
           <button type="submit" className="btn-auth" disabled={loading}>
-            {loading ? "Please wait..." : (
-              authMethod === "phone" 
-                ? (otpSent ? "Verify OTP" : "Send OTP") 
-                : (isLogin ? "Log In" : "Sign Up")
-            )}
+            {loading ? "Please wait..." : (isLogin ? "Log In" : "Sign Up")}
           </button>
         </form>
 
@@ -250,19 +197,17 @@ export default function Login() {
           </button>
         </div>
 
-        {authMethod === "email" && (
-          <div className="toggle-mode">
-            {isLogin ? (
-              <p>
-                Don't have an account? <button onClick={toggleMode} type="button">Sign up</button>
-              </p>
-            ) : (
-              <p>
-                Already have an account? <button onClick={toggleMode} type="button">Log in</button>
-              </p>
-            )}
-          </div>
-        )}
+        <div className="toggle-mode">
+          {isLogin ? (
+            <p>
+              Don't have an account? <button onClick={toggleMode} type="button">Sign up</button>
+            </p>
+          ) : (
+            <p>
+              Already have an account? <button onClick={toggleMode} type="button">Log in</button>
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Decorative background elements */}

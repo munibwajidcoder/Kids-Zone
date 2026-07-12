@@ -17,6 +17,7 @@ export default function Profile() {
     gender: "boy",
     favorite: "math"
   });
+  const [hasExistingDetails, setHasExistingDetails] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -52,12 +53,37 @@ export default function Profile() {
         const savedName = localStorage.getItem("user_name");
         if (savedName) setUserName(savedName);
       }
-    });
 
-    const savedDetails = localStorage.getItem("kid_details");
-    if (savedDetails) {
-      setKidDetails(JSON.parse(savedDetails));
-    }
+      // Fetch existing kid details from Supabase
+      supabase
+        .from('kid_details')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .limit(1)
+        .then(({ data }) => {
+          if (data && data.length > 0) {
+            const existing = data[0];
+            setKidDetails({
+              name: existing.nickname || "",
+              age: existing.age_group || "5-7",
+              gender: existing.gender || "boy",
+              favorite: existing.favorite_activity || "math"
+            });
+            setHasExistingDetails(true);
+            localStorage.setItem("kid_details", JSON.stringify({
+              name: existing.nickname || "",
+              age: existing.age_group || "5-7",
+              gender: existing.gender || "boy",
+              favorite: existing.favorite_activity || "math"
+            }));
+          } else {
+            const savedDetails = localStorage.getItem("kid_details");
+            if (savedDetails) {
+              setKidDetails(JSON.parse(savedDetails));
+            }
+          }
+        });
+    });
 
     const savedAvatar = localStorage.getItem("user_avatar");
     if (savedAvatar) setAvatar(savedAvatar);
@@ -83,21 +109,19 @@ export default function Profile() {
         .from('kid_details')
         .select('id')
         .eq('user_id', session.user.id)
-        .single();
+        .limit(1);
 
-      if (existingData) {
-        // Update existing record
+      if (existingData && existingData.length > 0) {
+        // Only update favorite activity if record exists
         const { error: updateError } = await supabase
           .from('kid_details')
           .update({
-            nickname: kidDetails.name,
-            age_group: kidDetails.age,
-            gender: kidDetails.gender,
             favorite_activity: kidDetails.favorite
           })
-          .eq('id', existingData.id);
+          .eq('id', existingData[0].id);
           
         if (updateError) throw updateError;
+        setHasExistingDetails(true);
       } else {
         // Insert new record
         const { error: insertError } = await supabase
@@ -111,6 +135,7 @@ export default function Profile() {
           });
           
         if (insertError) throw insertError;
+        setHasExistingDetails(true);
       }
 
       // Save to local storage as fallback
@@ -131,33 +156,6 @@ export default function Profile() {
   return (
     <div className="profile-page-wrapper">
       
-      {/* Back Button */}
-      <button 
-        className="btn-back"
-        onClick={() => router.push("/")}
-        style={{
-          alignSelf: 'flex-start',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          color: 'white',
-          padding: '8px 15px',
-          borderRadius: '20px',
-          cursor: 'pointer',
-          fontWeight: 'bold',
-          marginBottom: '1rem',
-          backdropFilter: 'blur(10px)',
-          transition: 'all 0.3s ease'
-        }}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Back to Kids Zone
-      </button>
-
       {/* Top Profile Header */}
       <div className="profile-header">
         <div className="avatar-circle" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -193,6 +191,12 @@ export default function Profile() {
         <h2 className="settings-title">My Child's Details</h2>
         <p className="settings-subtitle">Help us personalize the learning journey</p>
         
+        {hasExistingDetails && (
+          <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px 15px', borderRadius: '10px', marginBottom: '15px', fontSize: '0.9rem', color: '#a0a0a0' }}>
+            <span style={{ color: '#00d2ff' }}>Note:</span> Basic details (Name, Age, Gender) cannot be changed once saved. You can only update the Favorite Activity.
+          </div>
+        )}
+
         <form className="details-form" onSubmit={handleSaveDetails}>
           <div className="form-group">
             <label>Child's Nickname</label>
@@ -201,6 +205,8 @@ export default function Profile() {
               placeholder="e.g. Leo" 
               value={kidDetails.name}
               onChange={(e) => setKidDetails({...kidDetails, name: e.target.value})}
+              disabled={hasExistingDetails}
+              style={{ opacity: hasExistingDetails ? 0.6 : 1, cursor: hasExistingDetails ? 'not-allowed' : 'text' }}
             />
           </div>
           
@@ -209,6 +215,8 @@ export default function Profile() {
             <select 
               value={kidDetails.age}
               onChange={(e) => setKidDetails({...kidDetails, age: e.target.value})}
+              disabled={hasExistingDetails}
+              style={{ opacity: hasExistingDetails ? 0.6 : 1, cursor: hasExistingDetails ? 'not-allowed' : 'pointer' }}
             >
               <option value="2-4">2 - 4 Years</option>
               <option value="5-7">5 - 7 Years</option>
@@ -221,6 +229,8 @@ export default function Profile() {
             <select 
               value={kidDetails.gender}
               onChange={(e) => setKidDetails({...kidDetails, gender: e.target.value})}
+              disabled={hasExistingDetails}
+              style={{ opacity: hasExistingDetails ? 0.6 : 1, cursor: hasExistingDetails ? 'not-allowed' : 'pointer' }}
             >
               <option value="boy">Boy</option>
               <option value="girl">Girl</option>

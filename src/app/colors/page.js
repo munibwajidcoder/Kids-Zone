@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { speakImmediate, cancelSpeech } from "@/utils/speech";
+import React, { useState, useEffect, useRef } from "react";
+import { speakImmediate, speakTextPromise, cancelSpeech } from "@/utils/speech";
 import "./colors.css";
 
 export default function ColorsPage() {
   const [activeColor, setActiveColor] = useState(null);
+  const [isPlayingSequence, setIsPlayingSequence] = useState(false);
+  const isPlayingRef = useRef(false);
 
   const colorsList = [
     { name: "Red", hex: "#dc2626", emoji: "🍎", desc: "Like a yummy juicy apple!" },
@@ -22,7 +24,48 @@ export default function ColorsPage() {
     { name: "Gold", hex: "#fbbf24", emoji: "👑", desc: "Like a royal golden crown!" }
   ];
 
+  const stopSequence = () => {
+    cancelSpeech();
+    setIsPlayingSequence(false);
+    isPlayingRef.current = false;
+    setActiveColor(null);
+  };
+
+  const playSequence = async () => {
+    if (isPlayingSequence) {
+      stopSequence();
+      return;
+    }
+
+    cancelSpeech();
+    setIsPlayingSequence(true);
+    isPlayingRef.current = true;
+
+    for (let color of colorsList) {
+      if (!isPlayingRef.current) break;
+
+      setActiveColor(color.name);
+      
+      const el = document.getElementById(`color-card-${color.name}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      await speakTextPromise(color.name, 0.8);
+      await new Promise(res => setTimeout(res, 400));
+    }
+
+    if (isPlayingRef.current) {
+      stopSequence();
+    }
+  };
+
   const handleColorClick = (colorName) => {
+    if (isPlayingSequence) {
+      stopSequence();
+      return;
+    }
+
     setActiveColor(colorName);
     speakImmediate(colorName);
     setTimeout(() => {
@@ -45,6 +88,22 @@ export default function ColorsPage() {
         <div className="colors-header-center">
           <h1 className="colors-main-title">Learn Colors</h1>
           <p className="colors-subtitle">Let's explore the vibrant world of colors!</p>
+          <button 
+            className={`abc-sound-btn ${isPlayingSequence ? "playing" : ""}`}
+            onClick={playSequence} 
+            title={isPlayingSequence ? "Stop Sequence" : "Play All Colors"}
+            style={{ margin: '0 auto', display: 'flex', marginTop: '15px' }}
+          >
+            {isPlayingSequence ? (
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <rect x="6" y="6" width="12" height="12" rx="1" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            )}
+          </button>
         </div>
         <div className="colors-header-right">
           <span>🖌️</span>
@@ -57,6 +116,7 @@ export default function ColorsPage() {
           return (
             <div
               key={color.name}
+              id={`color-card-${color.name}`}
               className={`color-glass-card ${isPlaying ? "playing-active" : ""}`}
               onClick={() => handleColorClick(color.name)}
               style={{ "--card-color": color.hex }}
